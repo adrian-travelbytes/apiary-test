@@ -4,7 +4,7 @@ info:
   title: "White Label API"
   description: User API spec for the white label project.
   contact:
-    name: TravelButes Team
+    name: TravelBytes Team
     email: info@travelbytes.biz
     url: http://travelbytes.biz
 host: tb-pipeline-dev
@@ -222,7 +222,7 @@ paths:
     post:
       tags:
         - transform
-      summary: Transforms XML using XSLT
+      summary: Transforms XML using XSLT (in progress)
       operationId: xmlTransform
       parameters:
         - name: api_key
