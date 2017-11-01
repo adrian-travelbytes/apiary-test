@@ -222,7 +222,7 @@ paths:
     post:
       tags:
         - transform
-      summary: Transforms XML using XSLT (in progress)
+      summary: (in progress) Transforms XML using XSLT
       operationId: xmlTransform
       parameters:
         - name: api_key
