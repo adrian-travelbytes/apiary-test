@@ -1,0 +1,292 @@
+swagger: "2.0"
+info:
+  version: tb-pipeline-dev-0-001
+  title: "White Label API"
+  description: User API spec for the white label project.
+  contact:
+    name: TravelButes Team
+    email: info@travelbytes.biz
+    url: http://travelbytes.biz
+host: tb-pipeline-dev
+basePath: /api
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+
+  # Security
+  /login:
+    post:
+      tags:
+        - security
+      summary: Logs in a currently registered user
+      operationId: login
+      parameters:
+        - name: loginBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+      responses:
+        200:
+          description: Login successful
+          schema:
+            $ref: "#/definitions/UserDetail"
+        401:
+          description: Unauthorised/Invalid/Disabled/Locked out user
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        404:
+          description: Missing required field
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /logout:
+    get:
+      tags:
+        - security
+      summary: Logs out the currently registered user
+      operationId: logout
+      responses:
+        200:
+          description: Logout successful
+  /user/register:
+    post:
+      tags:
+        - security
+      summary: Registers a new user
+      operationId: registerUser
+      parameters:
+        - name: registerBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - captcha
+            properties:
+              email:
+                type: string
+              captcha:
+                description: Captcha response (not too sure what's the payload yet placeholder for now)
+                type: string
+              mobile_api_key:
+                description: (DEV only) overrides captcha requirements
+                type: string
+      responses:
+        200:
+          description: Registration successful
+        400:
+          description: Invalid email address entered
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /user/confirm:
+    post:
+      tags:
+        - security
+      summary: Confirms a new user or reset password request
+      operationId: actionConfirm
+      parameters:
+        - name: confirmActionBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - pin
+              - token
+            properties:
+              email:
+                description: Email used in registration
+                type: string
+              pin:
+                description: 6-digit one time PIN
+                type: number
+              token:
+                description: Token session value
+                type: string
+              action:
+                description: Action type for logging purposes
+                type: string
+      responses:
+        200:
+          description: Confirmation or password reset successful
+        400:
+          description: No user found for email
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        401:
+          description: Expired token / Token and email mismatch / Tpken and PIN mismatch
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        404:
+          description: Invalid user key
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /user/resetpassword:
+    post:
+      tags:
+        - security
+      summary: Resets a user password
+      operationId: resetPassword
+      parameters:
+        - name: resetPasswordBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - password
+              - confirm_password
+              - old_password
+            properties:
+              password:
+                description: New password
+                type: string
+              confirm_password:
+                description: New password confirmation
+                type: string
+              old_password:
+                description: Previous password if changing in app
+                type: string
+      responses:
+        200:
+          description: Confirmation or password reset successful
+        400:
+          description: Passwords do not match / Previous password is invalid
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /user/forgot:
+    post:
+      tags:
+        - security
+      summary: Forgotten password
+      operationId: forgotPassword
+      parameters:
+        - name: forgotPasswordBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - captcha
+            properties:
+              email:
+                description: User email address
+                type: string
+              captcha:
+                description: Captcha response (not too sure what's the payload yet placeholder for now)
+                type: string
+              mobile_api_key:
+                description: (DEV only) overrides captcha requirements
+                type: string
+      responses:
+        200:
+          description: Email with reset password instructions sent
+        400:
+          description: Invalid user
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        401:
+          description: User disabled
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /user/detail:
+    get:
+      tags:
+        - security
+      summary: Get current user login details
+      operationId: getUserDetail
+      responses:
+        200:
+          description: Successfully retrieved user details
+          schema:
+            $ref: "#/definitions/UserDetail"
+            
+  # Transform
+  /xml/transform:
+    post:
+      tags:
+        - transform
+      summary: Transforms XML using XSLT
+      operationId: xmlTransform
+      parameters:
+        - name: api_key
+          in: query
+          description: API key required for access
+          required: true
+          type: string
+        - name: loginBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - xml
+              - gds
+            properties:
+              xml:
+                description: XML to transform
+                type: string
+              gds:
+                description: GDS field to determine transform to apply
+                type: string
+      responses:
+        200:
+          description: Transform successful
+          schema:
+            type: string
+            xml:
+              name: tbxml
+
+definitions:
+  UserDetail:
+    description: Logged in user account details
+    type: object
+    properties:
+      incomingEmail:
+        description: User system unique email address
+        type: string
+        format: email
+      username:
+        description: User name
+        type: string
+      email:
+        description: User login email
+        type: string
+        format: email
+      userKey:
+        description: User key id
+        type: integer
+      failedAttempts: 
+        description: Number of prior failed attempts
+        type: integer
+      roles:
+        description: List of roles assigned to the user
+        type: array
+        items: 
+          type: string
+
+  MessageResponse:
+    type: object
+    properties:
+      code:
+        description: Message code
+        type: string
+      message:
+        description: Message description
+        type: string
