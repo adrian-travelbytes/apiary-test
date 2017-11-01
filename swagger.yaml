@@ -253,6 +253,8 @@ paths:
             xml:
               name: tbxml
 
+
+# Object Definitions
 definitions:
   UserDetail:
     description: Logged in user account details
