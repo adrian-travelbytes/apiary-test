@@ -224,6 +224,8 @@ paths:
         - transform
       summary: (in progress) Transforms XML using XSLT
       operationId: xmlTransform
+      produces:
+        - text/xml
       parameters:
         - name: api_key
           in: query
@@ -249,9 +251,10 @@ paths:
         200:
           description: Transform successful
           schema:
-            type: string
-            xml:
-              name: tbxml
+            type: object
+            properties:
+              tbxml:
+                type: string
 
 
 # Object Definitions
