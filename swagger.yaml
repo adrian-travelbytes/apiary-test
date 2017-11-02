@@ -8,7 +8,6 @@ info:
     email: info@travelbytes.biz
     url: http://travelbytes.biz
 host: tb-pipeline-dev.appspot.com
-basePath: /api
 schemes:
   - https
 consumes:
@@ -18,7 +17,7 @@ produces:
 paths:
 
   # Security
-  /login:
+  /api/login:
     post:
       tags:
         - security
@@ -52,7 +51,7 @@ paths:
           description: Missing required field
           schema:
             $ref: "#/definitions/MessageResponse"
-  /logout:
+  /api/logout:
     get:
       tags:
         - security
@@ -61,7 +60,7 @@ paths:
       responses:
         200:
           description: Logout successful
-  /user/register:
+  /api/user/register:
     post:
       tags:
         - security
@@ -92,7 +91,7 @@ paths:
           description: Invalid email address entered
           schema:
             $ref: "#/definitions/MessageResponse"
-  /user/confirm:
+  /api/user/confirm:
     post:
       tags:
         - security
@@ -136,7 +135,7 @@ paths:
           description: Invalid user key
           schema:
             $ref: "#/definitions/MessageResponse"
-  /user/resetpassword:
+  /api/user/resetpassword:
     post:
       tags:
         - security
@@ -169,7 +168,7 @@ paths:
           description: Passwords do not match / Previous password is invalid
           schema:
             $ref: "#/definitions/MessageResponse"
-  /user/forgot:
+  /api/user/forgot:
     post:
       tags:
         - security
@@ -205,7 +204,7 @@ paths:
           description: User disabled
           schema:
             $ref: "#/definitions/MessageResponse"
-  /user/detail:
+  /api/user/detail:
     get:
       tags:
         - security
@@ -217,8 +216,8 @@ paths:
           schema:
             $ref: "#/definitions/UserDetail"
             
-  # Transform
-  /xml/transform:
+  # Transform Component
+  /transform/xml:
     post:
       tags:
         - transform
