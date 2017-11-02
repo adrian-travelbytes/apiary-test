@@ -260,6 +260,10 @@ paths:
           description: Missing XML or GDS
           schema:
             $ref: "#/definitions/MessageResponse"
+        401:
+          description: Invalid or missing API key
+          schema:
+            $ref: "#/definitions/MessageResponse"
         404:
           description: Error in transforming XML
           schema:
