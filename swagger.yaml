@@ -260,6 +260,10 @@ paths:
           description: Missing XML or GDS
           schema:
             $ref: "#/definitions/MessageResponse"
+        404:
+          description: Error in transforming XML
+          schema:
+            $ref: "#/definitions/MessageResponse"
 
 
 # Object Definitions
