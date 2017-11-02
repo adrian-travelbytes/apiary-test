@@ -7,7 +7,7 @@ info:
     name: TravelBytes Team
     email: info@travelbytes.biz
     url: http://travelbytes.biz
-host: tb-pipeline-dev
+host: tb-pipeline-dev.appspot.com
 basePath: /api
 schemes:
   - https
