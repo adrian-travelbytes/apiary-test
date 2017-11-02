@@ -225,6 +225,7 @@ paths:
       summary: (in progress) Transforms XML using XSLT
       operationId: xmlTransform
       produces:
+        - application/json
         - text/xml
       parameters:
         - name: api_key
@@ -245,7 +246,7 @@ paths:
                 description: XML to transform
                 type: string
               gds:
-                description: GDS field to determine transform to apply
+                description: GDS field to determine transform to apply [1A, 1G, 1S]Some updates to the Trnsform
                 type: string
       responses:
         200:
@@ -255,6 +256,10 @@ paths:
             properties:
               tbxml:
                 type: string
+        400:
+          description: Missing XML or GDS
+          schema:
+            $ref: "#/definitions/MessageResponse"
 
 
 # Object Definitions
