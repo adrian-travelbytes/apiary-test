@@ -274,6 +274,10 @@ definitions:
   UserDetail:
     description: Logged in user account details
     type: object
+    required:
+     - username
+     - email
+     - userKey
     properties:
       incomingEmail:
         description: User system unique email address
@@ -300,6 +304,9 @@ definitions:
 
   MessageResponse:
     type: object
+    required:
+     - code
+     - message
     properties:
       code:
         description: Message code
