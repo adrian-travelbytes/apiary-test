@@ -217,6 +217,7 @@ paths:
           description: Successfully retrieved user details
           schema:
             $ref: "#/definitions/UserDetail"
+
             
   # Transform Component
   /transform/xml:
@@ -247,7 +248,7 @@ paths:
                 description: XML to transform
                 type: string
               gds:
-                description: GDS field to determine transform to apply [1A, 1G, 1S]Some updates to the Trnsform
+                description: GDS field to determine transform to apply [1A, 1G, 1S]
                 type: string
       responses:
         200:
