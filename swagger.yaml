@@ -87,6 +87,8 @@ paths:
       responses:
         200:
           description: Registration successful
+          schema:
+            $ref: "#/definitions/UserDetail"
         400:
           description: Invalid email address entered
           schema:
