@@ -224,7 +224,7 @@ paths:
     post:
       tags:
         - transform
-      summary: Removing Transforms XML using XSLT
+      summary: Transforms XML using XSLT
       operationId: xmlTransform
       produces:
         - application/json
