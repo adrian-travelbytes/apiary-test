@@ -277,7 +277,8 @@ definitions:
     description: Logged in user account details
     type: object
     required:
-     - username
+     - givenName
+     - surname
      - email
      - userKey
     properties:
@@ -285,8 +286,11 @@ definitions:
         description: User system unique email address
         type: string
         format: email
-      username:
-        description: User name
+      givenName:
+        description: User's given name
+        type: string
+      surname:
+        description: User's surname
         type: string
       email:
         description: User login email
