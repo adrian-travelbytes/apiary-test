@@ -86,9 +86,9 @@ paths:
                 type: string
       responses:
         200:
-          description: Registration successful
+          description: Registration successful and confirmation email sent
           schema:
-            $ref: "#/definitions/UserDetail"
+            $ref: "#/definitions/TokenResponse"
         400:
           description: Invalid email address entered
           schema:
@@ -198,6 +198,8 @@ paths:
       responses:
         200:
           description: Email with reset password instructions sent
+          schema:
+            $ref: "#/definitions/TokenResponse"
         400:
           description: Invalid user
           schema:
@@ -321,3 +323,10 @@ definitions:
       message:
         description: Message description
         type: string
+        
+  TokenResponse:
+    type: object
+    properties:
+      token:
+        description: Token value used for authentication
+        type: number
