@@ -78,6 +78,7 @@ paths:
             properties:
               email:
                 type: string
+                format: email
               captcha:
                 description: Captcha response (not too sure what's the payload yet placeholder for now)
                 type: string
@@ -125,6 +126,8 @@ paths:
       responses:
         200:
           description: Confirmation or password reset successful
+          schema:
+            $ref: "#/definitions/EmptyResponse"
         400:
           description: No user found for email
           schema:
@@ -166,6 +169,8 @@ paths:
       responses:
         200:
           description: Confirmation or password reset successful
+          schema:
+            $ref: "#/definitions/EmptyResponse"
         400:
           description: Passwords do not match / Previous password is invalid
           schema:
@@ -276,6 +281,10 @@ paths:
 
 # Object Definitions
 definitions:
+  EmptyResponse:
+    description: No data being returned
+    type: object
+  
   UserDetail:
     description: Logged in user account details
     type: object
@@ -326,7 +335,9 @@ definitions:
         
   TokenResponse:
     type: object
+    required:
+     - token
     properties:
       token:
-        description: Token value used for authentication
-        type: number
+        description: Token value used for authentication (string of numbers)
+        type: string
