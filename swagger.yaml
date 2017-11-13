@@ -277,6 +277,36 @@ paths:
           description: Error in transforming XML
           schema:
             $ref: "#/definitions/MessageResponse"
+  /transform/xml/message:
+    post:
+      tags:
+        - transform
+      summary: Subscriber handler for receiving incoming transform request messages
+      description: Might be changed to use the admin /_ah/push-handler prefix if testing with it can be figured out
+      operationId: messageTransformXml
+      parameters:
+        - name: api_key
+          in: query
+          description: API key required for access
+          required: true
+          type: string
+        - name: subscription
+          in: body
+          schema:
+            $ref: '#/definitions/PushMessage'
+      responses:
+        200:
+          description: Transform successful
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+        250:
+          description: Transformation error / Missing xml file
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        400:
+          description: No record for id exists
+          schema:
+            $ref: "#/definitions/MessageResponse"
 
 
 # Object Definitions
@@ -341,3 +371,34 @@ definitions:
       token:
         description: Token value used for authentication (string of numbers)
         type: string
+        
+  PushMessage:
+    description: Push message sent to a subscriber
+    type: object
+    required:
+      - subscription
+      - message
+    properties:
+      subscripton:
+        description: Full subscription string as on GCP
+        type: string
+      message:
+        $ref: '#/definitions/PushSubMessage'
+            
+  PushSubMessage:
+    description: Message payload published together during a PubSub. Either the data or attributes property must be populated
+    type: object
+    properties:
+      data:
+        description: Data sent in b64 encoded format
+        type: string
+      attributes: 
+        description: Object consisting of key/value pairs, if data is empty, this must be populated
+        type: object
+      messageId:
+        description: Id of the published message, this is autopopulated by the publisher server
+        type: number
+      publishTime:
+        description: Time of published message, this is autopopulated by the publisher server
+        type: string
+        format: date-time
