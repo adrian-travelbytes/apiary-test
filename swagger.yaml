@@ -384,6 +384,9 @@ definitions:
         type: string
       message:
         $ref: '#/definitions/PushSubMessage'
+      force:
+        description: Force reprocessing of xml transformation regardless of status
+        type: boolean
             
   PushSubMessage:
     description: Message payload published together during a PubSub. Either the data or attributes property must be populated
