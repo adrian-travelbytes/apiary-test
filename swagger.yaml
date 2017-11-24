@@ -133,7 +133,7 @@ paths:
           schema:
             $ref: "#/definitions/MessageResponse"
         401:
-          description: Expired token / Token and email mismatch / Tpken and PIN mismatch
+          description: Expired token / Token and email mismatch / Token and PIN mismatch
           schema:
             $ref: "#/definitions/MessageResponse"
         404:
@@ -225,6 +225,24 @@ paths:
           schema:
             $ref: "#/definitions/UserDetail"
 
+
+  # Segment
+  /api/segments/all:
+    get:
+      tags:
+        - segment
+      summary: tingRetrieve user travel segments
+      operationId: listSegments
+      responses:
+        200:
+          description: Successfully retrieved user segments
+          schema:
+            $ref: "#/definitions/AllSegments"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
+            
             
   # Transform Component
   /transform/xml:
@@ -405,3 +423,7 @@ definitions:
       force:
         description: Force reprocessing of xml transformation regardless of status
         type: boolean
+        
+  AllSegments:
+    description: List of all the user's segments ordered by start date. Each list item format is determined by segment type.
+    type: object
