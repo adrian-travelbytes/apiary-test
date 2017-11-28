@@ -82,6 +82,12 @@ paths:
               captcha:
                 description: Captcha response (not too sure what's the payload yet placeholder for now)
                 type: string
+              given_name:
+                description: User's given name entry
+                type: string
+              surname:
+                description: User's surname entry
+                type: string
               mobile_api_key:
                 description: (DEV only) overrides captcha requirements
                 type: string
@@ -231,7 +237,7 @@ paths:
     get:
       tags:
         - segment
-      summary: tingRetrieve user travel segments
+      summary: Retrieve user travel segments
       operationId: listSegments
       responses:
         200:
@@ -367,6 +373,19 @@ definitions:
         type: array
         items: 
           type: string
+      userSettings:
+        description: List of user settings
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              description: User setting name
+              type: string
+            value:
+              description: User setting value
+              type: string
+          
 
   MessageResponse:
     type: object
