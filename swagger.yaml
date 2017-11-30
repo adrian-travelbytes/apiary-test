@@ -82,7 +82,7 @@ paths:
               captcha:
                 description: Captcha response (not too sure what's the payload yet placeholder for now)
                 type: string
-              given_name:
+              givenName:
                 description: User's given name entry
                 type: string
               surname:
