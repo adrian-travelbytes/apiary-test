@@ -444,5 +444,57 @@ definitions:
         type: boolean
         
   AllSegments:
-    description: List of all the user's segments ordered by start date. Each list item format is determined by segment type.
+    description: |
+      List of all the user's segments ordered by start date. 
+      Each list item format is determined by segment type.
+      What is included here are the properties common to all segments.
     type: object
+    properties:
+      id:
+        description: Database table primary key identifier
+        type: string
+      qitransaction_id:
+        description: QiTransaction Id
+        type: string
+      agencyRef: 
+        description: PNR / RLOC
+        type: string
+      bookingNames: 
+        description: Comma separated list of Surname/GivenNames of passengers
+        type: string
+      statusCode:
+        description: Status code of segment
+        type: string
+      status:
+        description: Decoded status
+        type: string
+      startLocalDateTime:
+        description: Starting time of segment in local time
+        type: string
+        format: date-time
+      endLocalDateTime:
+        description: Ending time of segment in local time
+        type: string
+        format: date-time
+      startUtcDateTime:
+        description: Starting time of segment in UTC time (Not available yet)
+        type: string
+        format: date-time
+      endUtcDateTime:
+        description: Ending time of segment in UTC time (Not available yet)
+        type: string
+        format: date-time
+      startLocationId:
+        description: Foreign key to location table for starting location (Not available yet)
+        type: string
+      endLocationId:
+        description: Foreign key to location table for ending location (Not available yet)
+        type: string
+      created:
+        description: When segment record was created
+        type: string
+        format: date-time
+      updated:
+        description: When segment record was last updated
+        type: string
+        format: date-time
