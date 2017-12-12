@@ -230,6 +230,34 @@ paths:
           description: Successfully retrieved user details
           schema:
             $ref: "#/definitions/UserDetail"
+  /api/user/name/change:
+    post:
+      tags:
+        - security
+      summary: Change user name details
+      operationId: changeUserName
+      parameters:
+        - name: userNameBody
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              givenName:
+                description: User given name
+                type: string
+              surname:
+                description: User surname
+                type: string
+      responses:
+        200:
+          description: Successfully updated user name deatails
+          schema:
+            $ref: "#/definitions/UserSettings"
+        401:
+          description: Invalid user / Not logged in
+          schema:
+            $ref: "#/definitions/MessageResponse"
 
 
   # Segment
@@ -374,19 +402,21 @@ definitions:
         items: 
           type: string
       userSettings:
-        description: List of user settings
-        type: array
-        items:
-          type: object
-          properties:
-            name:
-              description: User setting name
-              type: string
-            value:
-              description: User setting value
-              type: string
-          
+        $ref: "#/definitions/UserSettings"
 
+  UserSettings:
+    description: List of user settings
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          description: User setting name
+          type: string
+        value:
+          description: User setting value
+          type: string
+    
   MessageResponse:
     type: object
     required:
@@ -408,7 +438,7 @@ definitions:
       token:
         description: Token value used for authentication (string of numbers)
         type: string
-        
+
   PushMessage:
     description: Push message sent to a subscriber
     type: object
