@@ -266,6 +266,14 @@ paths:
       tags:
         - segment
       summary: Retrieve user travel segments
+      description: |
+        Returns a list of user trip segments ordered by date.
+        Each list item properties are determined by segment type.
+        The listed properties in the schema description are the properties 
+        common to all segments.
+        Note that properties beginning with '_' is for internal use and will be 
+        removed in future.
+
       operationId: listSegments
       responses:
         200:
@@ -474,10 +482,7 @@ definitions:
         type: boolean
         
   AllSegments:
-    description: |
-      List of all the user's segments ordered by start date. 
-      Each list item format is determined by segment type.
-      What is included here are the properties common to all segments.
+    description: List of all user trip segments ordered by start date. 
     type: object
     properties:
       id:
