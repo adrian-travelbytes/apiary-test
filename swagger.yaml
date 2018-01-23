@@ -369,6 +369,81 @@ paths:
             $ref: "#/definitions/MessageResponse"
 
 
+  # Actions
+  /action/delete:
+    post:
+      tags:
+        - action
+      summary: De-activates search action
+      operationId: deleteAction
+      parameters:
+        - name: api_key
+          in: query
+          description: API key required for access
+          required: true
+          type: string
+        - name: deleteActionBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                description: QiTransaction Id to de-activate the search
+                type: number
+              searchType:
+                description: |
+                  Type of action search to de-active ['hotelSearch']. 
+                  Defaults to all if none specified.
+                type: string
+      responses:
+        200:
+          description: De-activation successful
+          schema:
+            type: object
+            properties:
+              ids:
+                description: List of Action Ids that were de-activated.
+                type: array
+  /action/search/hotel:
+    post:
+      tags:
+        - action
+      summary: Subscriber handler that performs the search action for hotel cross-selling
+      operationId: searchHotel
+      parameters:
+        - name: api_key
+          in: query
+          description: API key required for access
+          required: true
+          type: string
+        - name: subscription
+          in: body
+          schema:
+            $ref: '#/definitions/PushMessage'
+      responses:
+        200:
+          description: Transform successful
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+
+
+  # Crons
+  /action/admin/cron/clear_daily_searches:
+    get:
+      tags:
+        - cron
+      summary: Daily cron job that de-activates search actions older than a day
+      operationId: clearExpiredActions
+      responses:
+        200:
+          description: De-activation successful
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+
+            
 # Object Definitions
 definitions:
   EmptyResponse:
