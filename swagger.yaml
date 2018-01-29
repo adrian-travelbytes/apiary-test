@@ -284,6 +284,31 @@ paths:
           description: Unauthorised access / Login required
           schema:
             $ref: "#/definitions/MessageResponse"
+  /api/hotel/search:
+    post:
+      tags:
+        - search
+      summary: Searches for hotels on Expedia based on filter parameters
+      operationId: hotelSearch
+      parameters:
+        - name: searchBody
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/HotelSearchRequest"
+      responses:
+        200:
+          description: Successfully retrieved hotel results
+          schema:
+            $ref: "#/definitions/HotelListResults"
+        400:
+          description: Expedia API error / Missing and/or invalid parameters
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
             
             
   # Transform Component
@@ -608,3 +633,82 @@ definitions:
         description: When segment record was last updated
         type: string
         format: date-time
+        
+  HotelSearchRequest:
+    type: object
+    required:
+      - checkIn
+      - checkOut
+      - location
+      - rooms
+    properties:
+      checkIn:
+        description: Check in date
+        type: string
+        format: date-time
+      checkOut:
+        description: Check out date
+        type: string
+        format: date-time
+      location:
+        description: Search string for hotel general location
+        type: string
+      rooms:
+        description: |
+          Rooms required and occupancy breakdown.
+          Each entry corresponds to a room.
+        type: array
+        items:
+          type: object
+          properties:
+            adults:
+              description: Number of adults in the room
+              type: number
+            childAges:
+              description: List of child ages in the room
+              type: array
+              items:
+                type: number
+      limit:
+        description: |
+          Number of results to limit to. 
+          If not specified will default to 1000.
+        type: number
+      detail:
+        description: |
+          Level of detail in search results based on Expedia API.
+          Defaults to "low" when not supplied.
+          - lowest
+          - low
+          - medium
+          - high
+        type: string
+        
+  HotelListResults:
+    type: object
+    properties:
+      hotelList:
+        description: List of hotels from successful search
+        type: array
+        items:
+          type: object
+          properties:
+            reviewRating: 
+              description: User review rating
+              type: number
+              format: float
+            starRating: 
+              description: Hotel star rating
+              type: number
+              format: float
+            rate: 
+              description: Total price of hotel inclusive of fees for period of stay
+              type: string
+            location:
+              description: More precise location of hotel
+              type: string
+              format: currency value
+            image:
+              description: URL for hotel thumbnail image
+              type: string
+              format: uri
