@@ -693,6 +693,12 @@ definitions:
         items:
           type: object
           properties:
+            hotelName:
+              description: Name of hotel
+              type: string
+            description:
+              description: Short description as a hotel teaser
+              type: string
             reviewRating: 
               description: User review rating
               type: number
