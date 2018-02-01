@@ -399,12 +399,16 @@ paths:
     post:
       tags:
         - action
-      summary: De-activates search action
+      summary: De-activates search action.
+      description: |
+        Take note that this might change in future once 
+        new business rules for search result population 
+        are in place.
       operationId: deleteAction
       parameters:
         - name: api_key
           in: query
-          description: API key required for access
+          description: API key required for access if not logged in
           required: true
           type: string
         - name: deleteActionBody
@@ -414,9 +418,13 @@ paths:
             type: object
             required:
               - id
+              - actionId
             properties:
               id:
-                description: QiTransaction Id to de-activate the search
+                description: QiTransaction Id 
+                type: number
+              actionId:
+                description: Id to de-activate the search
                 type: number
               searchType:
                 description: |
@@ -427,11 +435,16 @@ paths:
         200:
           description: De-activation successful
           schema:
-            type: object
-            properties:
-              ids:
-                description: List of Action Ids that were de-activated.
-                type: array
+            $ref: "#/definitions/EmptyResponse"
+        400:
+          description: Invalid QiTransaction / Action Id 
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        401:
+          description: Invalid or missing API key / Not logged in
+          schema:
+            $ref: "#/definitions/MessageResponse"
+          
   /action/search/hotel:
     post:
       tags:
