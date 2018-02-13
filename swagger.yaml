@@ -284,10 +284,13 @@ paths:
           description: Unauthorised access / Login required
           schema:
             $ref: "#/definitions/MessageResponse"
+
+
+  # Hotel
   /api/hotel/search:
     post:
       tags:
-        - search
+        - hotel
       summary: Searches for hotels on Expedia based on filter parameters
       operationId: hotelSearch
       parameters:
@@ -309,7 +312,32 @@ paths:
           description: Unauthorised access / Login required
           schema:
             $ref: "#/definitions/MessageResponse"
-            
+  /api/hotel/detail:
+    post:
+      tags:
+        - hotel
+      summary: Retrieves detailed hotel information from Expedia
+      operationId: getHotelDetail
+      parameters:
+        - name: detailBody
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/HotelDetailRequest"
+      responses:
+        200:
+          description: Successfully retrieved hotel details
+          schema:
+            $ref: "#/definitions/HotelDetailResponse"
+        400:
+          description: Expedia API error / Missing and/or invalid parameters
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
+          
             
   # Transform Component
   /transform/xml:
@@ -731,3 +759,48 @@ definitions:
               description: URL for hotel thumbnail image
               type: string
               format: uri
+            detailLink:
+              description: URL for detailed information retrieval
+              type: string
+              format: uri
+              
+  HotelDetailRequest:
+    type: object
+    required:
+      - detailUrl
+    properties:
+      detailUrl:
+        description: Detail URL of room type given in Expedia RoomTypes
+        type: string
+        format: uri
+      locale:
+        description: Localization locale
+        type: string
+      imageSizes:
+        description: |
+          Size of images to return in links.
+          Defaults to "big" when not supplied.
+          - thumbnail
+          - small
+          - big
+          - y (500x500)
+          - z (1000x1000)
+        type: string
+  
+  HotelDetailResponse:
+    description: |
+      Returns a response payload wihich is detailed here:
+      https://expediaintegration.zendesk.com/hc/en-us/articles/115003581048-XAPv3-Hotel-Details-API
+    type: object
+    properties:
+      roomTypes:
+        description: |
+          A listing of the room types available based on criteria obtained from the detail link.
+          The details of the returned room properties are detailed here under the RoomType section of the Response Message:
+          https://expediaintegration.zendesk.com/hc/en-us/articles/115003581028-XAPv3-Hotel-Search-API
+        type: object
+      details:
+        description: |
+          Returns a response payload wihich is detailed here:
+          https://expediaintegration.zendesk.com/hc/en-us/articles/115003581048-XAPv3-Hotel-Details-API
+        type: object
