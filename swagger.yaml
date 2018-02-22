@@ -146,6 +146,90 @@ paths:
           description: Invalid user key
           schema:
             $ref: "#/definitions/MessageResponse"
+
+  /api/user/payment/update-card:
+    post:
+      tags:
+        - security
+      summary: Adds or updates a user's credit card details
+      operationId: updateCard
+      parameters:
+        - name: updateCardBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - duration
+              - cardNumber
+              - expirationMonth
+              - expirationYear
+              - cvv
+            properties:
+              duration:
+                description: subscription duration
+                type: string
+              cardNumber:
+                description: credit card number
+                type: string
+              expirationMonth:
+                type: number
+              expirationYear:
+                type: string
+              cvv:
+                type: string
+      responses:
+        200:
+          description: Payment information successfully updated for user
+          schema:
+            type: object
+            required:
+              - cardNumberPreview
+            properties:
+              cardNumberPreview:
+                description: Part of the user's credit card number, so they know what card they've entered
+                type: string
+        401:
+          description: Invalid user / Not logged in
+          schema:
+            $ref: "#/definitions/MessageResponse"
+
+  /api/user/payment/update-billing:
+    post:
+      tags:
+        - security
+      summary: Adds or updates a user's billing information
+      operationId: updateBilling
+      parameters:
+        - name: updateBillingBody
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - streetAddress
+              - city
+              - state
+              - postalCode
+            properties:
+              streetAddress:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              postalCode:
+                type: string
+      responses:
+        200:
+          description: Billing information successfully updated
+          schema:
+            $ref: "#/definitions/TokenResponse"
+        401:
+          description: Invalid user / Not logged in
+          schema:
+            $ref: "#/definitions/MessageResponse"
+            
   /api/user/resetpassword:
     post:
       tags:
@@ -779,6 +863,16 @@ definitions:
       imageSizes:
         description: |
           Size of images to return in links.
+          Defaults to "z" when not supplied.
+          - thumbnail
+          - small
+          - big
+          - y (500x500)
+          - z (1000x1000)
+        type: string
+      roomImageSizes:
+        description: |
+          Size of images to return in room listings.
           Defaults to "big" when not supplied.
           - thumbnail
           - small
