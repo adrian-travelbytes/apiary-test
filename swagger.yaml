@@ -344,6 +344,62 @@ paths:
             $ref: "#/definitions/MessageResponse"
 
 
+  # Client
+  /api/client/{clientCode}/logo:
+    get:
+      tags:
+        - client
+      summary: (WIP) Client logo retrieval
+      operationId: getClientLogo
+      produces: 
+        - text/plain
+        - application/json
+      parameters:
+        - name: clientCode
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: Successful retrieval of client logo URL
+          schema:
+            type: string
+            format: uri
+        400:
+          description: Missing and/or invalid client code
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /api/client/setup:
+    post:
+      tags:
+        - client
+      summary: (WIP) Agent setup for client information
+      operationId: setupClient
+      parameters:
+        - name: clientInfo
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/ClientInfoSetupRequest"
+      responses:
+        200:
+          description: Successful setup/update of client info
+          schema:
+            $ref: "#/definitions/ClientInfoResponse"
+        400:
+          description: Missing and/or invalid client code
+          schema:
+            $ref: "#/definitions/MessageResponse"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  
+  
   # Segment
   /api/segments/all:
     get:
@@ -705,7 +761,53 @@ definitions:
       force:
         description: Force reprocessing of xml transformation regardless of status
         type: boolean
+
+  ClientInfoSetupRequest:
+    description: Client information
+    type: object
+    properties:
+      code:
+        description: Client code
+        type: string
+      name: 
+        description: Client name
+        type: string
+      terms:
+        description: Client T&Cs
+        type: string
+      logo:
+        description: Base-64 encoded logo contents
+        type: string
+      logoFileName:
+        description: Logo filename
+        type: string
+      gds:
+        description: Client GDS code (Not in use yet)
+        type: string
         
+  ClientInfoResponse:
+    description: Client information
+    type: object
+    properties:
+      code:
+        description: Client code
+        type: string
+      name: 
+        description: Client name
+        type: string
+      terms:
+        description: Client T&Cs
+        type: string
+      logo:
+        description: Logo path
+        type: string
+      logoPath:
+        description: Public logo URL
+        type: string
+      gds:
+        description: Client GDS code (Not in use yet)
+        type: string
+    
   AllSegments:
     description: List of all user trip segments ordered by start date. 
     type: object
