@@ -349,7 +349,7 @@ paths:
     get:
       tags:
         - client
-      summary: (WIP) Client logo retrieval
+      summary: Client logo retrieval
       operationId: getClientLogo
       produces: 
         - text/plain
@@ -377,7 +377,7 @@ paths:
     post:
       tags:
         - client
-      summary: (WIP) Agent setup for client information
+      summary:  Agent setup for client information
       operationId: setupClient
       parameters:
         - name: clientInfo
@@ -391,7 +391,7 @@ paths:
           schema:
             $ref: "#/definitions/ClientInfoResponse"
         400:
-          description: Missing and/or invalid client code
+          description: Missing and/or invalid client code/name/terms
           schema:
             $ref: "#/definitions/MessageResponse"
         401:
@@ -765,6 +765,10 @@ definitions:
   ClientInfoSetupRequest:
     description: Client information
     type: object
+    required:
+      - code
+      - name
+      - terms
     properties:
       code:
         description: Client code
