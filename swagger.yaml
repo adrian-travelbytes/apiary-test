@@ -424,6 +424,80 @@ paths:
           description: Unauthorised access / Login required
           schema:
             $ref: "#/definitions/MessageResponse"
+  /api/segments/current:
+    post:
+      tags:
+        - segment
+      summary: (WIP) Retrieve limited list of user current travel segments
+      description: |
+        Returns a shortened list of user trip segments ordered by date.
+        The ratio is a 4:1 of current/future segments to previous segments.
+        By default returns a list of 20 segments from the current date and 5 previous segments.
+        Each list item properties are the same as for the all segments listing.
+
+      operationId: listCurrentSegments
+      parameters:
+        - name: listSegmentParams
+          in: body
+          schema:
+            $ref: "#/definitions/ListSegmentParams"
+      responses:
+        200:
+          description: Successfully retrieved user segments
+          schema:
+            $ref: "#/definitions/AllSegments"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /api/segments/older:
+    post:
+      tags:
+        - segment
+      summary: (WIP) Retrieve user older trip segments
+      description: |
+        Returns a list of user trip segments prior to a specified date ordered by date.
+        By default returns a list of the 5 segments from the current datetime.
+        Each list item properties are the same as for the all segments listing.
+
+      parameters:
+        - name: listSegmentParams
+          in: body
+          schema:
+            $ref: "#/definitions/ListSegmentParams"
+      responses:
+        200:
+          description: Successfully retrieved user segments
+          schema:
+            $ref: "#/definitions/AllSegments"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
+  /api/segments/later:
+    get:
+      tags:
+        - segment
+      summary: (WIP) Retrieve user later travel segments
+      description: |
+        Returns a list of user trip segments after a specified date ordered by date.
+        By default returns a list of the 5 segments from the current datetime.
+        Each list item properties are the same as for the all segments listing.
+
+      parameters:
+        - name: listSegmentParams
+          in: body
+          schema:
+            $ref: "#/definitions/ListSegmentParams"
+      responses:
+        200:
+          description: Successfully retrieved user segments
+          schema:
+            $ref: "#/definitions/AllSegments"
+        401:
+          description: Unauthorised access / Login required
+          schema:
+            $ref: "#/definitions/MessageResponse"
 
 
   # Hotel
@@ -813,7 +887,9 @@ definitions:
         type: string
     
   AllSegments:
-    description: List of all user trip segments ordered by start date. 
+    description: |
+      List of user trip segments ordered by start date. 
+      Properties listed are the common properties across all the trip type segments.
     type: object
     properties:
       id:
@@ -865,6 +941,19 @@ definitions:
         type: string
         format: date-time
         
+  ListSegmentParams:
+    type: object
+    properties:
+      dateTime:
+        description: |
+          The datetime value to base the current listing to begin from.
+          If not provided will default to the current time.
+        type: string
+        format: date-time
+      limit:
+        description: Number of segments to return
+        type: number
+  
   HotelSearchRequest:
     type: object
     required:
