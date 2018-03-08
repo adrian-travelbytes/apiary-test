@@ -460,6 +460,7 @@ paths:
         By default returns a list of the 5 segments from the current datetime.
         Each list item properties are the same as for the all segments listing.
 
+      operationId: listOlderSegments
       parameters:
         - name: listSegmentParams
           in: body
@@ -484,6 +485,7 @@ paths:
         By default returns a list of the 5 segments from the current datetime.
         Each list item properties are the same as for the all segments listing.
 
+      operationId: listLaterSegments
       parameters:
         - name: listSegmentParams
           in: body
